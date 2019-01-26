@@ -864,7 +864,6 @@ impl Term {
         }
     }
 
-
     pub fn selection_mut(&mut self) -> &mut Option<Selection> {
         &mut self.grid.selection
     }

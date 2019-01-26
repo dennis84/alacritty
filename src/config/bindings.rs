@@ -68,6 +68,7 @@ pub fn default_key_bindings() -> Vec<KeyBinding> {
         Key::Copy; Action::Copy;
         Key::L, [ctrl: true]; Action::ClearLogNotice;
         Key::L, [ctrl: true]; Action::Esc("\x0c".into());
+        Key::F, [ctrl: true]; Action::ToggleFullscreen;
         Key::Home, +TermMode::APP_CURSOR; Action::Esc("\x1bOH".into());
         Key::Home, ~TermMode::APP_CURSOR; Action::Esc("\x1b[H".into());
         Key::End, +TermMode::APP_CURSOR; Action::Esc("\x1bOF".into());

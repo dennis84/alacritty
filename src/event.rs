@@ -202,6 +202,11 @@ impl<'a, N: Notify + 'a> input::ActionContext for ActionContext<'a, N> {
             Err(_) => warn!("Unable to start new Alacritty process: {} {:?}", alacritty, args),
         }
     }
+
+    #[inline]
+    fn toggle_fullscreen(&mut self) {
+        self.window_changes.fullscreen = !self.window_changes.fullscreen;
+    }
 }
 
 /// The ActionContext can't really have direct access to the Window
@@ -210,18 +215,14 @@ impl<'a, N: Notify + 'a> input::ActionContext for ActionContext<'a, N> {
 /// the actual changes.
 pub struct WindowChanges {
     pub hide: bool,
-}
-
-impl WindowChanges {
-    fn clear(&mut self) {
-        self.hide = false;
-    }
+    pub fullscreen: bool,
 }
 
 impl Default for WindowChanges {
     fn default() -> WindowChanges {
         WindowChanges {
             hide: false,
+            fullscreen: false,
         }
     }
 }
@@ -564,11 +565,11 @@ impl<N: Notify> Processor<N> {
             window.hide();
         }
 
-        if self.window_changes.hide {
-            window.hide();
+        if window.is_fullscreen != self.window_changes.fullscreen {
+            window.set_fullscreen(self.window_changes.fullscreen);
         }
 
-        self.window_changes.clear();
+        self.window_changes.hide = false;
         self.wait_for_event = !terminal.dirty;
 
         terminal

@@ -77,6 +77,7 @@ pub trait ActionContext {
     fn url(&self, _: Point<usize>) -> Option<String>;
     fn clear_log(&mut self);
     fn spawn_new_instance(&mut self);
+    fn toggle_fullscreen(&mut self);
 }
 
 /// Describes a state and action to take in that state
@@ -240,6 +241,9 @@ pub enum Action {
     /// Spawn a new instance of Alacritty.
     SpawnNewInstance,
 
+    /// Toggle Fullscreen
+    ToggleFullscreen,
+
     /// No action.
     None,
 }
@@ -328,6 +332,9 @@ impl Action {
             },
             Action::SpawnNewInstance => {
                 ctx.spawn_new_instance();
+            },
+            Action::ToggleFullscreen => {
+                ctx.toggle_fullscreen();
             },
             Action::None => (),
         }
@@ -866,6 +873,7 @@ mod tests {
         fn clear_log(&mut self) {}
         fn hide_window(&mut self) {}
         fn spawn_new_instance(&mut self) {}
+        fn toggle_fullscreen(&mut self) {}
 
         fn terminal_mode(&self) -> TermMode {
             *self.terminal.mode()

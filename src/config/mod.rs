@@ -816,7 +816,7 @@ impl<'a> de::Deserialize<'a> for ActionWrapper {
                 f.write_str("Paste, Copy, PasteSelection, IncreaseFontSize, DecreaseFontSize, \
                             ResetFontSize, ScrollPageUp, ScrollPageDown, ScrollToTop, \
                             ScrollToBottom, ClearHistory, Hide, ClearLogNotice, SpawnNewInstance, \
-                            None or Quit")
+                            ToggleFullscreen, None or Quit")
             }
 
             fn visit_str<E>(self, value: &str) -> ::std::result::Result<ActionWrapper, E>
@@ -838,6 +838,7 @@ impl<'a> de::Deserialize<'a> for ActionWrapper {
                     "Quit" => Action::Quit,
                     "ClearLogNotice" => Action::ClearLogNotice,
                     "SpawnNewInstance" => Action::SpawnNewInstance,
+                    "ToggleFullscreen" => Action::ToggleFullscreen,
                     "None" => Action::None,
                     _ => return Err(E::invalid_value(Unexpected::Str(value), &self)),
                 }))

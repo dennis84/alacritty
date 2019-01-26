@@ -426,6 +426,7 @@ alt_send_esc: true
 #   - Quit
 #   - ClearLogNotice
 #   - SpawnNewInstance
+#   - ToggleFullscreen
 #   - None
 #
 # Values for `command`:
@@ -463,6 +464,7 @@ key_bindings:
 
   - { key: Paste,                   action: Paste                        }
   - { key: Copy,                    action: Copy                         }
+  - { key: F,        mods: Control, action: ToggleFullscreen             }
   - { key: L,        mods: Control, action: ClearLogNotice               }
   - { key: L,        mods: Control, chars: "\x0c"                        }
   - { key: Home,                    chars: "\x1bOH",   mode: AppCursor   }

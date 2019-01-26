@@ -73,6 +73,7 @@ pub struct Window {
 
     /// Whether or not the window is the focused window.
     pub is_focused: bool,
+    pub is_fullscreen: bool,
 }
 
 /// Threadsafe APIs for the window
@@ -172,6 +173,7 @@ impl Window {
             window,
             mouse_visible: true,
             is_focused: false,
+            is_fullscreen: false,
         };
 
         window.run_os_extensions();
@@ -392,6 +394,23 @@ impl Window {
     /// Hide the window
     pub fn hide(&self) {
         self.window.hide();
+    }
+
+    #[cfg(target_os = "macos")]
+    pub fn set_fullscreen(&mut self, is_fullscreen: bool) {
+        use glutin::os::macos::WindowExt;
+        self.is_fullscreen = WindowExt::set_simple_fullscreen(self.window.window(), is_fullscreen);
+    }
+
+    #[cfg(not(any(target_os = "macos")))]
+    pub fn set_fullscreen(&mut self, is_fullscreen: bool) {
+        if is_fullscreen {
+            self.window.set_fullscreen(Some(self.window.get_current_monitor()));
+        } else {
+            self.window.set_fullscreen(None)
+        }
+
+        self.is_fullscreen = is_fullscreen;
     }
 }
 
